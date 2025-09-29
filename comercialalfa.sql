@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24/09/2025 às 18:27
+-- Tempo de geração: 29/09/2025 às 16:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -28,48 +28,48 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `fornecedor` (
-  `id_fornecedor` int(11) NOT NULL,
-  `nome_fornecedor` varchar(50) DEFAULT NULL,
-  `cidade` varchar(50) DEFAULT NULL,
-  `cnpj` varchar(20) DEFAULT NULL,
-  `telefone` varchar(15) DEFAULT NULL
+  `id_fornecedor` int(10) NOT NULL,
+  `nome_fornecedor` text NOT NULL,
+  `cnpj` text NOT NULL,
+  `telefone` text NOT NULL,
+  `cidade` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `fornecedor`
 --
 
-INSERT INTO `fornecedor` (`id_fornecedor`, `nome_fornecedor`, `cidade`, `cnpj`, `telefone`) VALUES
-(1, 'Maria Machado', 'Sorocaba', '12345678900136', '15 998743651'),
-(2, 'Patrícia Soares', 'São Paulo', '48642696300145', '11 995478613'),
-(3, 'Luccas Ferreira', 'Votorantim', '78945612300143', '15 997651278'),
-(4, 'Melissa Prado', 'São Paulo', '25836914700128', '11 997645232'),
-(5, 'Fernando Pessoa', 'Sorocaba', '45842891200198', '15 991453879');
+INSERT INTO `fornecedor` (`id_fornecedor`, `nome_fornecedor`, `cnpj`, `telefone`, `cidade`) VALUES
+(1, 'Geovanna Pereira', '123.456.423.001.28', '15 991786235', 'Sorocaba'),
+(2, 'Fernando Pessoa', '186.496.476.001.76', '15 998614687', 'Votorantim'),
+(3, 'Maria Carolina', '786.482.654.001.27', '11 997651389', 'São Paulo'),
+(4, 'Bernardo Vieira', '864.179.146.001.46', '92 994618764', 'Manaus'),
+(5, 'Ana Santos', '794.879.147.001.86', '21 998645781', 'Rio de Janeiro');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedido_compra`
+-- Estrutura para tabela `pedido`
 --
 
-CREATE TABLE `pedido_compra` (
+CREATE TABLE `pedido` (
   `id_pedido` int(11) NOT NULL,
-  `id_fornecedor` int(11) DEFAULT NULL,
-  `id_produto` int(11) DEFAULT NULL,
-  `data_pedido` varchar(15) DEFAULT NULL,
-  `valor_total` double(100,2) DEFAULT NULL
+  `valor_compra` double NOT NULL,
+  `id_fornecedor` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `data_pedido` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `pedido_compra`
+-- Despejando dados para a tabela `pedido`
 --
 
-INSERT INTO `pedido_compra` (`id_pedido`, `id_fornecedor`, `id_produto`, `data_pedido`, `valor_total`) VALUES
-(1, 1, 4, '2025-01-10', 68.50),
-(2, 2, 3, '2024-05-15', 165.00),
-(3, 3, 2, '2025-09-20', 119.98),
-(4, 4, 5, '2025-06-15', 137.00),
-(5, 5, 1, '2024-12-22', 140.50);
+INSERT INTO `pedido` (`id_pedido`, `valor_compra`, `id_fornecedor`, `id_produto`, `data_pedido`) VALUES
+(1, 69, 1, 1, '2025-03-11'),
+(2, 500.7, 2, 2, '2023-08-01'),
+(3, 55.7, 3, 3, '2005-11-09'),
+(4, 340, 4, 4, '2014-06-30'),
+(5, 20, 5, 5, '2025-09-24');
 
 -- --------------------------------------------------------
 
@@ -78,23 +78,23 @@ INSERT INTO `pedido_compra` (`id_pedido`, `id_fornecedor`, `id_produto`, `data_p
 --
 
 CREATE TABLE `produto` (
-  `id_produto` int(11) NOT NULL,
-  `nome_produto` varchar(50) DEFAULT NULL,
-  `categoria` varchar(50) DEFAULT NULL,
-  `quantidade_estoque` int(100) DEFAULT NULL,
-  `preco_unitario` double(100,2) DEFAULT NULL
+  `id_produto` int(10) NOT NULL,
+  `nome_produto` text NOT NULL,
+  `preco_unitario` double NOT NULL,
+  `categoria` text NOT NULL,
+  `quantidade_estoque` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `produto`
 --
 
-INSERT INTO `produto` (`id_produto`, `nome_produto`, `categoria`, `quantidade_estoque`, `preco_unitario`) VALUES
-(1, 'Camiseta', 'Vestimenta', 5, 68.50),
-(2, 'Macaquinho', 'Vestimenta', 10, 69.99),
-(3, 'Shorts', 'Vestimenta', 12, 55.00),
-(4, 'Boné', 'Acessório', 5, 50.00),
-(5, 'Tênis', 'Calçado', 7, 140.50);
+INSERT INTO `produto` (`id_produto`, `nome_produto`, `preco_unitario`, `categoria`, `quantidade_estoque`) VALUES
+(1, 'Camiseta', 69, 'Vestimentas', 7),
+(2, 'Vestido', 250, 'Vestimentas', 5),
+(3, 'Boné', 55.7, 'Acessórios', 5),
+(4, 'Tênis', 340, 'Calçados', 9),
+(5, 'Laço de Cabelo', 20, 'Acessórios', 3);
 
 --
 -- Índices para tabelas despejadas
@@ -107,10 +107,12 @@ ALTER TABLE `fornecedor`
   ADD PRIMARY KEY (`id_fornecedor`);
 
 --
--- Índices de tabela `pedido_compra`
+-- Índices de tabela `pedido`
 --
-ALTER TABLE `pedido_compra`
-  ADD PRIMARY KEY (`id_pedido`);
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`id_pedido`),
+  ADD KEY `id_fornecedor` (`id_fornecedor`),
+  ADD KEY `id_produto` (`id_produto`);
 
 --
 -- Índices de tabela `produto`
@@ -126,19 +128,30 @@ ALTER TABLE `produto`
 -- AUTO_INCREMENT de tabela `fornecedor`
 --
 ALTER TABLE `fornecedor`
-  MODIFY `id_fornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_fornecedor` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `pedido_compra`
+-- AUTO_INCREMENT de tabela `pedido`
 --
-ALTER TABLE `pedido_compra`
+ALTER TABLE `pedido`
   MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_produto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `pedido`
+--
+ALTER TABLE `pedido`
+  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`),
+  ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
