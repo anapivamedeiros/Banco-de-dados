@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/03/2026 às 19:43
+-- Tempo de geração: 29/10/2026 às 19:30
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `usuarios`
+-- Banco de dados: `ellenco_gestao`
 --
 
 -- --------------------------------------------------------
@@ -28,30 +28,31 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `usuarios` (
-  `id` bigint(20) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `senha` varchar(255) NOT NULL,
-  `perfil` enum('ADMIN','USER') NOT NULL,
-  `endereco` varchar(255) DEFAULT NULL,
-  `bairro` varchar(80) DEFAULT NULL,
-  `complemento` varchar(80) DEFAULT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `cidade` varchar(100) DEFAULT NULL,
-  `estado` varchar(50) DEFAULT NULL,
-  `foto` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nome` varchar(160) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `senha_hash` varchar(255) NOT NULL,
+  `tipo_acesso` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
+  `setor` enum('engenharia','administrativo','obras') NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `perfil`, `endereco`, `bairro`, `complemento`, `cep`, `cidade`, `estado`, `foto`) VALUES
-(40, 'Marcela da Silva', 'marcela.silva@email.com', '123456', 'ADMIN', 'Rua das Flores, 123', 'Centro', 'Apto 202', '12345-678', 'São Paulo', 'SP', NULL),
-(45, 'Isabela Souza', 'isa.souza@email.com', '321654', 'ADMIN', 'Rua da paz, 356', 'Centro', 'Apto 891', '85234-761', 'São Paulo', 'SP', NULL),
-(48, 'Amanda Oliveira', 'manda.oliv@gmail.com', '1234589', 'ADMIN', 'Rua do Amor, 741', 'Centro', 'Apto 162', '78513-943', 'São Paulo', 'SP', NULL),
-(49, 'Milena Maia', 'milena.maia@gmail.com', '842397', 'USER', 'Rua da Paixão, 824', 'Centro', 'Apto 172', '78941-648', 'São Paulo', 'SP', NULL),
-(51, 'Larissa Ros carvalho Silva', 'lari.ros@email.com', '$2a$10$P9usXx7pFb6GgX6J/q20nOaEhTt8iZijr0.N/yaquP6Z.kKjCATbO', 'USER', 'Rua das Margaridas, 123', 'Centro', 'Apto 423', '78945-197', 'São Paulo', 'SP', NULL);
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha_hash`, `tipo_acesso`, `setor`, `ativo`, `criado_em`) VALUES
+(1, 'melissa lopes', 'mel@gmail.com', '$2y$10$bgnmx0bJ8zB9ruRNObXTq.CaGU5ESWrb8YjojLoLdEnuujP9q/bD.', 'admin', 'engenharia', 1, '2026-10-29 13:24:33'),
+(2, 'julia', 'julia@gmail.com', '$2y$10$t7dKDJhT/NHUEZZn8Qh2SeKLb.o2RzxIKTtpcICh2aBFmKzSFHPvm', 'usuario', 'engenharia', 1, '2026-10-29 16:19:20'),
+(5, 'amanda', 'amanda@gmail.com', '$2y$10$B0PGQJP1R4HvJ5X9f9m5T.EtDkHVNpMWmYCnQ1gmzxaaJC2sCZ1dK', 'usuario', 'administrativo', 1, '2026-10-29 16:32:47'),
+(6, 'mariane', 'mari@gmail.com', '$2y$10$cWIolK9C1VyCLfigPiatjONom.HwsNZ2FFDATf1bbu7B07cMdQ7qW', 'usuario', 'obras', 1, '2026-10-29 16:42:48'),
+(7, 'ana', 'an1@gmail.com', '$2y$10$6oZch6LNSC./wjH8jppweOX9kT8wmubbS6kSmDScgQWEc/P6C9v8S', 'admin', 'obras', 1, '2026-10-29 16:44:12'),
+(8, 'isadora', 'dora@gmail.com', '$2y$10$KE03HBzU12XmSHWMSrbNa.qSzbYZrtlgKUI5WVrHqB8ursZ7J4lmK', 'admin', 'engenharia', 1, '2026-10-29 16:46:22'),
+(9, 'leticia', 'le@gmail.com', '$2y$10$9IIhpua9KRPrxZ4wfm2N..9yIq.ntdTELN9DMefervTxCkHa5J0yi', 'usuario', 'engenharia', 1, '2026-10-29 17:21:04'),
+(10, 'patricia', 'pat@gmail.com', '$2y$10$1A0IE8oY/E.nskhAYViD8.0Y609hMJqNVUCFHu6IQQ.yk01JluVEm', 'admin', 'administrativo', 1, '2026-10-29 17:29:57'),
+(11, 'Geovanna Oliveira', 'geovanna.oliveira1a@gmail.com', '$2y$10$b69XV3H/0qnRlfBR6Mk.zu4NvqYyJ4QhTVk.3YLpgEfCm.ZXPRRfC', 'usuario', 'administrativo', 1, '2026-10-29 18:21:53'),
+(13, 'Isabela Maria', 'isabela.piva1a@gmail.com', '$2y$10$Fx9KwCz8KJ1sMqN0qRxoNOkbY.t1YF6tf7HpN4ca9.2uDZkTZAbMa', 'usuario', 'obras', 1, '2026-10-29 18:27:56');
 
 --
 -- Índices para tabelas despejadas
@@ -72,7 +73,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
